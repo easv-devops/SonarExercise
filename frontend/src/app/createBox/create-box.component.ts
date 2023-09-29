@@ -44,7 +44,7 @@ import {ModalController, ToastController} from "@ionic/angular";
     </ion-item>
 
     <ion-item>
-      <ion-button data-testid="submit" [disabled]="createNewBoxForm.invalid" (click)="submit()">create</ion-button>
+      <ion-button data-testid="submit" [disabled]="createNewBoxForm.invalid" (click)="submit()">Create New Box</ion-button>
     </ion-item>
   </ion-list>
 
