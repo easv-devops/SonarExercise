@@ -3,8 +3,10 @@ using api.CustomDataAnnotations;
 
 namespace api.TransferModels;
 
-public class CreateBoxRequestDto
+public class UpdateBoxRequestDto
 {
+    public int Id { get; set; }
+    
     [ValueIsOneOf(new string[] {"small", "medium", "big", "large"}, "Must be proper size! (small, medium, big or large)")]
     public string Size { get; set; }
     
@@ -17,4 +19,5 @@ public class CreateBoxRequestDto
     [MinLength(3)]
     public string Color { get; set; }
     public int Quantity { get; set; }
+
 }

@@ -31,4 +31,19 @@ public class BoxController : ControllerBase
             ResponseData = _boxService.CreateBox(dto.Size, dto.Weight, dto.Price, dto.Material, dto.Color, dto.Quantity)
         };
     }
+    
+    [HttpPut]
+    [ValidateModel]
+    [Route("/api/boxes/{boxId}")]
+    public ResponseDto Put([FromRoute] int boxId,
+        [FromBody] UpdateBoxRequestDto dto)
+    {
+        HttpContext.Response.StatusCode = 201;
+        return new ResponseDto()
+        {
+            MessageToClient = "Successfully updated",
+            ResponseData =
+                _boxService.UpdateBox(dto.Id, dto.Size, dto.Weight, dto.Price, dto.Material, dto.Color, dto.Quantity)
+        };
+    }
 }

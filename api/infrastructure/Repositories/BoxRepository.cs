@@ -31,4 +31,24 @@ RETURNING id as {nameof(Box.Id)},
             return conn.QueryFirst<Box>(sql, new { size, weight, price, material, color, quantity });
         }
     }
+
+    public Box UpdateBox(int id, string size, int weight, int price, string material, string color, int quantity)
+    {
+        var sql = $@"
+UPDATE box_factory.boxes SET size = @size, weight = @weight, price = @price, material = @material, color = @color, quantity = @quantity
+WHERE id = @id
+RETURNING id as {nameof(Box.Id)},
+       size as {nameof(Box.Size)},
+        weight as {nameof(Box.Weight)},
+        price as {nameof(Box.Price)},
+    material as {nameof(Box.Material)},
+    color as {nameof(Box.Color)},
+    quantity as {nameof(Box.Quantity)};
+";
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.QueryFirst<Box>(sql, new { id, size, weight, price, material, color, quantity });
+        }
+    }
 }
