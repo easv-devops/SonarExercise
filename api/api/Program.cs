@@ -1,3 +1,4 @@
+using api.Middleware;
 using infrastructure;
 using infrastructure.Repositories;
 using Npgsql;
@@ -44,5 +45,7 @@ app.UseCors(options =>
 });
 
 app.MapControllers();
+
+app.UseMiddleware<GlobalExceptionHandler>();
 
 app.Run();

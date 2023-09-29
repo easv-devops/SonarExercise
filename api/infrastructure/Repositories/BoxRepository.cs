@@ -17,7 +17,7 @@ public class BoxRepository
     {
         var sql = $@"
 INSERT INTO box_factory.boxes (size, weight, price, material, color, quantity) 
-VALUES (@size, @weight, @price, @material), @color, @quantity
+VALUES (@size, @weight, @price, @material, @color, @quantity)
 RETURNING id as {nameof(Box.Id)},
        size as {nameof(Box.Size)},
         weight as {nameof(Box.Weight)},

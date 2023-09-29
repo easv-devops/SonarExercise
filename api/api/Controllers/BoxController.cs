@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+using api.Filters;
 using api.TransferModels;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
-namespace BoxFactory.Controllers;
+namespace api.Controllers;
 
 
 public class BoxController : ControllerBase
@@ -18,14 +20,14 @@ public class BoxController : ControllerBase
     }
     
     [HttpPost]
-    //[ValidateModel]
+    [ValidateModel]
     [Route("/api/boxes")]
     public ResponseDto Post([FromBody] CreateBoxRequestDto dto)
     {
         HttpContext.Response.StatusCode = StatusCodes.Status201Created;
         return new ResponseDto()
         {
-            MessageToClient = "Successfully created a book",
+            MessageToClient = "Successfully created a box",
             ResponseData = _boxService.CreateBox(dto.Size, dto.Weight, dto.Price, dto.Material, dto.Color, dto.Quantity)
         };
     }
