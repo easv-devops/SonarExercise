@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using api.Filters;
 using api.TransferModels;
+using infrastructure.DataModels;
+using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -18,6 +20,20 @@ public class BoxController : ControllerBase
         _logger = logger;
         _boxService = boxService;
     }
+
+    [HttpGet]
+    [Route("/api/stock")]
+    public IEnumerable<InStockBoxes> GetStock()
+    {
+        return _boxService.GetInStockBoxes();
+    }
+
+    [HttpGet]
+    [Route("api/boxes/{boxId}")]
+    public Box Get([FromRoute] int boxId)
+    {
+        return _boxService.GetBoxById(boxId);
+    }
     
     [HttpPost]
     [ValidateModel]
@@ -34,7 +50,7 @@ public class BoxController : ControllerBase
     
     [HttpPut]
     [ValidateModel]
-    [Route("/api/boxes/{boxId}")]
+    [Route("api/boxes/{boxId}")]
     public ResponseDto Put([FromRoute] int boxId,
         [FromBody] UpdateBoxRequestDto dto)
     {
@@ -45,5 +61,13 @@ public class BoxController : ControllerBase
             ResponseData =
                 _boxService.UpdateBox(dto.Id, dto.Size, dto.Weight, dto.Price, dto.Material, dto.Color, dto.Quantity)
         };
+    }
+
+    [HttpDelete]
+    [Route("/api/boxes/{boxId}")]
+    public object Delete([FromRoute] int boxId)
+    {
+        _boxService.DeleteBox(boxId);
+        return "Box Deleted";
     }
 }
