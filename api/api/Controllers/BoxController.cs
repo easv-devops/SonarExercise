@@ -70,4 +70,15 @@ public class BoxController : ControllerBase
         _boxService.DeleteBox(boxId);
         return "Box Deleted";
     }
+    
+  
+    [HttpGet]
+    [Route("/api/boxes")]
+    public List<Box> Search([FromQuery] SearchBoxesDto searchBoxesDto)
+    {
+        return _boxService.SearchBox(searchBoxesDto.SearchTerm);
+    }
+    
+    
+    
 }

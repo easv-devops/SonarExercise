@@ -40,4 +40,17 @@ public class BoxService
     {
         return _boxRepository.getBoxById(id);
     }
+
+    public List<Box> SearchBox(String searchterm)
+    {
+        try
+        {
+            return _boxRepository.SearchBox(searchterm);
+        }
+        catch (Exception e)
+        {
+            System.Console.WriteLine(e);
+            throw;
+        }
+    }
 }

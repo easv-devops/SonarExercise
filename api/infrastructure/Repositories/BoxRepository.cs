@@ -8,7 +8,7 @@ namespace infrastructure.Repositories;
 public class BoxRepository
 {
     private NpgsqlDataSource _dataSource;
-    
+
     public BoxRepository(NpgsqlDataSource datasource)
     {
         _dataSource = datasource;
@@ -26,10 +26,10 @@ public class BoxRepository
         {
             return conn.Query<InStockBoxes>(sql);
         }
-
+        
     }
-    
-    public Box CreateBox(string size,int weight, int price, string material, string color, int quantity)
+
+    public Box CreateBox(string size, int weight, int price, string material, string color, int quantity)
     {
         var sql = $@"
 INSERT INTO box_factory.boxes (size, weight, price, material, color, quantity) 
@@ -90,6 +90,23 @@ RETURNING id as {nameof(Box.Id)},
         {
             return conn.QueryFirst<Box>(sql, new { id });
         }
+    }
 
+    /**
+     * Search query for string attributes. ILIKE used to have case-insensitive search
+     */
+    public List<Box> SearchBox(String searchterm)
+    {
+        var sql =
+            $@"SELECT *
+            FROM box_factory.boxes
+            WHERE size ILIKE @searchTerm OR
+                  material ILIKE @searchTerm OR
+                  color ILIKE @searchTerm ";
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Query<Box>(sql, new { searchterm = $"%{searchterm}%" }).ToList();
+        }
     }
 }
