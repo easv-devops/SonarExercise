@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DefaultNamespace;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Npgsql;
@@ -93,20 +94,20 @@ RETURNING id as {nameof(Box.Id)},
     }
 
     /**
-     * Search query for string attributes. ILIKE used to have case-insensitive search
+     * Search query for string attributes.  ILIKE used to have case-insensitive search
      */
-    public List<Box> SearchBox(String searchterm)
+    public IEnumerable<Box> SearchBox(String searchterm)
     {
         var sql =
             $@"SELECT *
             FROM box_factory.boxes
             WHERE size ILIKE @searchTerm OR
-                  material ILIKE @searchTerm OR
-                  color ILIKE @searchTerm ";
+                  material ILIKE @searchTerm  OR
+                  color ILIKE @searchTerm  ";
 
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<Box>(sql, new { searchterm = $"%{searchterm}%" }).ToList();
+            return conn.Query<Box>(sql, new { searchterm = $"%{searchterm}%" });
         }
     }
 }

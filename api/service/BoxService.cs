@@ -1,4 +1,5 @@
-﻿using infrastructure.DataModels;
+﻿using DefaultNamespace;
+using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using infrastructure.Repositories;
 
@@ -41,16 +42,15 @@ public class BoxService
         return _boxRepository.getBoxById(id);
     }
 
-    public List<Box> SearchBox(String searchterm)
+    public IEnumerable<Box> SearchBox(String searchterm)
     {
         try
         {
             return _boxRepository.SearchBox(searchterm);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            System.Console.WriteLine(e);
-            throw;
+            throw new Exception("Could not search for boxes");
         }
     }
 }
