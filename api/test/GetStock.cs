@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace;
+﻿namespace test;
 
 using Dapper;
 using FluentAssertions;
@@ -35,7 +35,7 @@ public class GetStock
             };
             expected.Add(box);
             var sql = $@"
-            insert into boxes (size, weight, price, material, color, quantity) VALUES(@size, @weight,
+            insert into box_factory.boxes (size, weight, price, material, color, quantity) VALUES(@size, @weight,
                 @price, @material, @color, @quantity)";
             using (var conn = Helper.DataSource.OpenConnection())
             {
