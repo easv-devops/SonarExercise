@@ -1,4 +1,4 @@
-﻿using DefaultNamespace;
+﻿
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using infrastructure.Repositories;
@@ -42,7 +42,7 @@ public class BoxService
         return _boxRepository.getBoxById(id);
     }
 
-    public IEnumerable<Box> SearchBox(String searchterm)
+    public IEnumerable<InStockBoxes> SearchBox(String searchterm)
     {
         try
         {

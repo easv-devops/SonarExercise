@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using DefaultNamespace;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Npgsql;
@@ -19,7 +18,9 @@ public class BoxRepository
     {
         string sql = $@"
             SELECT id as {nameof(InStockBoxes.Id)},
-                weight as {nameof(InStockBoxes.Weight)},
+                size as {nameof(InStockBoxes.Size)},
+                material as {nameof(InStockBoxes.Material)},
+                color as {nameof(InStockBoxes.Color)},
                 quantity as {nameof(InStockBoxes.Quantity)} FROM box_factory.boxes;
             ";
 
@@ -27,7 +28,6 @@ public class BoxRepository
         {
             return conn.Query<InStockBoxes>(sql);
         }
-        
     }
 
     public Box CreateBox(string size, int weight, int price, string material, string color, int quantity)
@@ -96,18 +96,22 @@ RETURNING id as {nameof(Box.Id)},
     /**
      * Search query for string attributes.  ILIKE used to have case-insensitive search
      */
-    public IEnumerable<Box> SearchBox(String searchterm)
+    public IEnumerable<InStockBoxes> SearchBox(String searchterm)
     {
         var sql =
-            $@"SELECT *
+            $@"SELECT id as {nameof(Box.Id)},
+            size as {nameof(Box.Size)},
+             material as {nameof(Box.Material)},
+             color as {nameof(Box.Color)}
             FROM box_factory.boxes
+            
             WHERE size ILIKE @searchTerm OR
                   material ILIKE @searchTerm  OR
                   color ILIKE @searchTerm  ";
 
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<Box>(sql, new { searchterm = $"%{searchterm}%" });
+            return conn.Query<InStockBoxes>(sql, new { searchterm = $"%{searchterm}%" });
         }
     }
 }

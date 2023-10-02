@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using api.Filters;
 using api.TransferModels;
-using DefaultNamespace;
+
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
@@ -75,7 +75,7 @@ public class BoxController : ControllerBase
   
     [HttpGet]
     [Route("/api/boxes")]
-    public IEnumerable<Box> Search([FromQuery] SearchBoxesDto searchBoxesDto)
+    public IEnumerable<InStockBoxes> Search([FromQuery] SearchBoxesDto searchBoxesDto)
     {
         return _boxService.SearchBox(searchBoxesDto.SearchTerm);
     }
