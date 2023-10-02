@@ -29,7 +29,7 @@ public class BoxRepository
 
     }
     
-    public Box CreateBox(string size,int weight, int price, string material, string color, int quantity)
+    public Box CreateBox(string size,float weight, float price, string material, string color, int quantity)
     {
         var sql = $@"
 INSERT INTO box_factory.boxes (size, weight, price, material, color, quantity) 
@@ -48,7 +48,7 @@ RETURNING id as {nameof(Box.Id)},
         }
     }
 
-    public Box UpdateBox(int id, string size, int weight, int price, string material, string color, int quantity)
+    public Box UpdateBox(int id, string size, float weight, float price, string material, string color, int quantity)
     {
         var sql = $@"
 UPDATE box_factory.boxes SET size = @size, weight = @weight, price = @price, material = @material, color = @color, quantity = @quantity

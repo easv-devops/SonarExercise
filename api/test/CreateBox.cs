@@ -21,7 +21,7 @@ public class CreateBox
     public async Task ShouldSuccessfullyCreateBox()
     {
         Helper.TriggerRebuild();
-        var article = new Box()
+        var box = new Box()
         {
             Size = "small",
             Weight = 10,
@@ -35,7 +35,7 @@ public class CreateBox
         HttpResponseMessage response;
         try
         {
-            response = await _httpClient.PostAsJsonAsync(url, article);
+            response = await _httpClient.PostAsJsonAsync(url, box);
             TestContext.WriteLine("THE FULL BODY RESPONSE: " + await response.Content.ReadAsStringAsync());
         }
         catch (Exception e)
