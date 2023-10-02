@@ -69,8 +69,8 @@ public class Helper
     }
 
     public static string RebuildScript = @"
-DROP SCHEMA IF EXISTS boxes CASCADE;
-CREATE SCHEMA boxes;
+DROP SCHEMA IF EXISTS box_factory CASCADE;
+CREATE SCHEMA box_factory;
 
 create table if not exists box_factory.boxes
 (
