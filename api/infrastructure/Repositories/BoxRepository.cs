@@ -18,7 +18,9 @@ public class BoxRepository
     {
         string sql = $@"
             SELECT id as {nameof(InStockBoxes.Id)},
-                weight as {nameof(InStockBoxes.Weight)},
+                size as {nameof(InStockBoxes.Size)},
+                material as {nameof(InStockBoxes.Material)},
+                color as {nameof(InStockBoxes.Color)},
                 quantity as {nameof(InStockBoxes.Quantity)} FROM box_factory.boxes;
             ";
 

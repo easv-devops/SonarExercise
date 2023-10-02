@@ -87,4 +87,53 @@ create table if not exists box_factory.boxes
     public static string NoResponseMessage = $@"
 There was no response from the API, the API may not be running.
     ";
+    
+    public static async Task<bool> IsCorsFullyEnabledAsync(string path)
+    {
+        using var client = new HttpClient();
+        try
+        {
+            var request = new HttpRequestMessage(HttpMethod.Options, new Uri(path));
+            // Add Origin header to simulate CORS request
+            request.Headers.Add("Origin", "https://week35-86108.web.app");
+            request.Headers.Add("Access-Control-Request-Method", "GET");
+            request.Headers.Add("Access-Control-Request-Headers", "X-Requested-With");
+
+            var response = await client.SendAsync(request);
+
+            bool corsEnabled = false;
+
+            if (response.Headers.Contains("Access-Control-Allow-Origin"))
+            {
+                var accessControlAllowOrigin =
+                    response.Headers.GetValues("Access-Control-Allow-Origin").FirstOrDefault();
+                corsEnabled = accessControlAllowOrigin == "*" ||
+                              accessControlAllowOrigin == "https://week35-86108.web.app";
+            }
+
+            var accessControlAllowMethods = response.Headers.GetValues("Access-Control-Allow-Methods").FirstOrDefault();
+            var accessControlAllowHeaders = response.Headers.GetValues("Access-Control-Allow-Headers").FirstOrDefault();
+
+            if (corsEnabled && (accessControlAllowMethods != null && accessControlAllowMethods.Contains("GET")) &&
+                (accessControlAllowHeaders != null && accessControlAllowHeaders.Contains("X-Requested-With")))
+            {
+                return true;
+            }
+        }
+        catch (Exception)
+        {
+            throw new Exception("\nCORS IS NOT ENABLED. PLEASE ENABLE CORS.\n(check last part of the project description)\n");
+        }
+
+
+        return false;
+    }
+    
+    public static string MyBecause(object actual, object expected)
+    {
+        string expectedJson = JsonConvert.SerializeObject(expected, Formatting.Indented);
+        string actualJson = JsonConvert.SerializeObject(actual, Formatting.Indented);
+
+        return $"because we want these objects to be equivalent:\nExpected:\n{expectedJson}\nActual:\n{actualJson}";
+    }
 }
