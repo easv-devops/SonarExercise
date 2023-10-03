@@ -1,4 +1,5 @@
-﻿using infrastructure.DataModels;
+﻿
+using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using infrastructure.Repositories;
 
@@ -39,5 +40,17 @@ public class BoxService
     public Box GetBoxById(int id)
     {
         return _boxRepository.getBoxById(id);
+    }
+
+    public IEnumerable<InStockBoxes> SearchBox(String searchterm)
+    {
+        try
+        {
+            return _boxRepository.SearchBox(searchterm);
+        }
+        catch (Exception)
+        {
+            throw new Exception("Could not search for boxes");
+        }
     }
 }
