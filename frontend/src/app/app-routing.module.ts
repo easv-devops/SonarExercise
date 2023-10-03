@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {BoxesPage} from "./home/home.page";
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'boxes',
     pathMatch: 'full'
   },
+  {
+    path: 'boxes',
+    component: BoxesPage
+  }
 ];
 
 @NgModule({
