@@ -1,6 +1,4 @@
-﻿using test;
-
-namespace DefaultNamespace;
+﻿namespace test;
 
 using Dapper;
 using FluentAssertions;
@@ -27,7 +25,7 @@ public class SearchBox
     {
         Helper.TriggerRebuild();
         var expected = new List<object>();
-
+        int expectedResult = 5;
         for (var i = 1; i <= 10; i++)
         {
             var box = new Box()
@@ -64,10 +62,10 @@ public class SearchBox
         }
 
         var content = await response.Content.ReadAsStringAsync();
-        IEnumerable<Box> boxes;
+        IEnumerable<InStockBoxes> boxes;
         try
         {
-            boxes = JsonConvert.DeserializeObject<IEnumerable<Box>>(content) ??
+            boxes = JsonConvert.DeserializeObject<IEnumerable<InStockBoxes>>(content) ??
                     throw new InvalidOperationException();
         }
         catch (Exception e)
@@ -78,15 +76,15 @@ public class SearchBox
         using (new AssertionScope())
         {
             response.IsSuccessStatusCode.Should().BeTrue();
-           
+            boxes.Count().Should().Be(expectedResult);
         }
     }
 
     [Test]
-    [TestCase("NonExistentSearch")]
+    [TestCase("NonExistentResult")]
     public async Task BoxSearchNoResults(string searchterm)
     {
-        var expected = new List<object>();
+
         HttpResponseMessage response;
         try
         {
@@ -99,10 +97,22 @@ public class SearchBox
             throw new Exception(Helper.NoResponseMessage, e);
         }
 
+        var content = await response.Content.ReadAsStringAsync();
+        IEnumerable<InStockBoxes> boxes;
+        try
+        {
+            boxes = JsonConvert.DeserializeObject<IEnumerable<InStockBoxes>>(content) ??
+                    throw new InvalidOperationException();
+        }
+        catch (Exception e)
+        {
+            throw new Exception(Helper.NoResponseMessage, e);
+        }
+
         using (new AssertionScope())
         {
             response.IsSuccessStatusCode.Should().BeTrue();
-            expected.Should().BeEmpty();
+            boxes.Should().BeEmpty();
         }
     }
 }
