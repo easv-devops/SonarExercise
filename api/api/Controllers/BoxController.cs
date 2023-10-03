@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using api.Filters;
 using api.TransferModels;
+
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
@@ -67,4 +68,15 @@ public class BoxController : ControllerBase
         _boxService.DeleteBox(boxId);
         return "Box Deleted";
     }
+    
+  
+    [HttpGet]
+    [Route("/api/boxes")]
+    public IEnumerable<InStockBoxes> Search([FromQuery] SearchBoxesDto searchBoxesDto)
+    {
+        return _boxService.SearchBox(searchBoxesDto.SearchTerm);
+    }
+    
+    
+    
 }
