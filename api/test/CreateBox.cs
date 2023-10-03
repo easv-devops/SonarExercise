@@ -56,7 +56,12 @@ public class CreateBox
     }
 
     [TestCase("super big", 10, 10, "plastic", "green", 10 )]
-    public async Task ShouldFailDueToDataValidation(string size, int weight, int price, string material, string color, int quantity)
+    [TestCase("small", -10, 10, "plastic", "green", 10)]
+    [TestCase("small", 10, -5, "plastic", "green", 10)]
+    [TestCase("small", 10, 5.5F, "wrong-material", "green", 10)]
+    [TestCase("small", 10, 5.5F, "plastic", "wrong-color", 10)]
+    [TestCase("small", 10, 5.5F, "plastic", "green", -10)]
+    public async Task ShouldFailDueToDataValidation(string size, float weight, float price, string material, string color, int quantity)
     {
         var box = new Box()
         {

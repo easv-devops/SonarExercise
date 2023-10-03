@@ -14,7 +14,7 @@ public class Helper
     static Helper()
     {
         string rawConnectionString;
-        String envVarKeyName = "pgconn";
+        string envVarKeyName = "pgconn";
 
         rawConnectionString = Environment.GetEnvironmentVariable(envVarKeyName)!;
         if (rawConnectionString == null)
@@ -87,4 +87,17 @@ create table if not exists box_factory.boxes
     public static string NoResponseMessage = $@"
 There was no response from the API, the API may not be running.
     ";
+    
+
+    
+
+    
+    public static string MyBecause(object actual, object expected)
+    {
+        string expectedJson = JsonConvert.SerializeObject(expected, Formatting.Indented);
+        string actualJson = JsonConvert.SerializeObject(actual, Formatting.Indented);
+
+        return $"because we want these objects to be equivalent:\nExpected:\n{expectedJson}\nActual:\n{actualJson}";
+    }
+
 }
