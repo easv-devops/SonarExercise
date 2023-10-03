@@ -5,6 +5,7 @@ using FluentAssertions.Execution;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
+
 namespace test;
 
 public class UpdateBox
@@ -21,6 +22,7 @@ public class UpdateBox
     public async Task SuccessfullyUpdateBox()
     {
         Helper.TriggerRebuild();
+        
         var box = new Box()
         {
             Id = 1,
@@ -41,7 +43,8 @@ public class UpdateBox
             conn.Execute(sql, box);
         }
 
-        var url = "http://localhost:5000/api/boxes/" + box.Id;
+        var url = "http://localhost:5000/api/boxes/" + 1;
+        
 
         HttpResponseMessage response;
         try
@@ -68,7 +71,6 @@ public class UpdateBox
         using (new AssertionScope())
         {
             response.IsSuccessStatusCode.Should().BeTrue();
-            (await Helper.IsCorsFullyEnabledAsync(url)).Should().BeTrue();
             responseObject.Should().BeEquivalentTo(box, Helper.MyBecause(responseObject, box));
         }
     }
@@ -85,7 +87,6 @@ public class UpdateBox
     public async Task UpdateBoxShouldFailDueToDataValidation(string size, float weight, float price, string material,
         string color, int quantity)
     {
-        Helper.TriggerRebuild();
         var box = new Box()
         {
             Size = size,

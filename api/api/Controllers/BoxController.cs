@@ -51,16 +51,13 @@ public class BoxController : ControllerBase
     [HttpPut]
     [ValidateModel]
     [Route("api/boxes/{boxId}")]
-    public ResponseDto Put([FromRoute] int boxId,
+    public Box Put([FromRoute] int boxId,
         [FromBody] UpdateBoxRequestDto dto)
     {
         HttpContext.Response.StatusCode = 201;
-        return new ResponseDto()
-        {
-            MessageToClient = "Successfully updated",
-            ResponseData =
-                _boxService.UpdateBox(dto.Id, dto.Size, dto.Weight, dto.Price, dto.Material, dto.Color, dto.Quantity)
-        };
+
+        return _boxService.UpdateBox(dto.Id, dto.Size, dto.Weight, dto.Price, dto.Material, dto.Color, dto.Quantity);
+
     }
 
     [HttpDelete]

@@ -14,7 +14,7 @@ public class Helper
     static Helper()
     {
         string rawConnectionString;
-        String envVarKeyName = "pgconn";
+        string envVarKeyName = "pgconn";
 
         rawConnectionString = Environment.GetEnvironmentVariable(envVarKeyName)!;
         if (rawConnectionString == null)
