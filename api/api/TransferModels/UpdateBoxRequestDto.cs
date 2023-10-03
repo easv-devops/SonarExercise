@@ -12,11 +12,11 @@ public class UpdateBoxRequestDto
     public string Size { get; set; }
     
     [Required]
-    [Range(0, int.MaxValue)]
+    [Range(0, 1000, ErrorMessage = "Enter weight number between 0 to 1000")]
     public float Weight { get; set; }
     
     [Required]
-    [Range(0, int.MaxValue)]
+    [Range(0, 1000, ErrorMessage = "Enter price number between 0 to 1000")]
     public float Price { get; set; }
     
     [Required]
