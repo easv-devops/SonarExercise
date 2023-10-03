@@ -11,11 +11,11 @@ public class CreateBoxRequestDto
     public string Size { get; set; }
     
     [Required]
-    [RegularExpression(@"^[0-9]+\d*(\.\d{1,2})?$")]
+    [Range(0, 1000, ErrorMessage = "Enter weight number between 0 to 1000")]
     public float Weight { get; set; }
     
     [Required]
-    [RegularExpression(@"^0|[1-9]+\d*(\.\d{1,2})?$")]
+    [Range(0, 1000, ErrorMessage = "Enter price number between 0 to 1000")]
     public float Price { get; set; }
     
     [Required]
@@ -27,6 +27,6 @@ public class CreateBoxRequestDto
     public string Color { get; set; }
     
     [Required]
-    [RegularExpression(@"^(0|[1-9][0-9]*)$")]
+    [Range(0, int.MaxValue)]
     public int Quantity { get; set; }
 }

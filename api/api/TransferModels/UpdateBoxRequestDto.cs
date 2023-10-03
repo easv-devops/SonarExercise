@@ -12,11 +12,11 @@ public class UpdateBoxRequestDto
     public string Size { get; set; }
     
     [Required]
-    [RegularExpression(@"^[0-9]+\d*(\.\d{1,2})?$")]
+    [Range(0, int.MaxValue)]
     public float Weight { get; set; }
     
     [Required]
-    [RegularExpression(@"^0|[1-9]+\d*(\.\d{1,2})?$")]
+    [Range(0, int.MaxValue)]
     public float Price { get; set; }
     
     [Required]
@@ -28,7 +28,7 @@ public class UpdateBoxRequestDto
     public string Color { get; set; }
     
     [Required]
-    [RegularExpression(@"^(0|[1-9][0-9]*)$")]
+    [Range(0, int.MaxValue)]
     public int Quantity { get; set; }
 
 }
