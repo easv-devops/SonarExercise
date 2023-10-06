@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "../createBox/create-box.component";
 import {environment} from "../../environments/environment";
@@ -23,26 +23,28 @@ import {DataService} from "../data.service";
         <p>Welcome, boomer boss! Ready to manage your boxes?</p>
       </div>
 
-    </ion-content>
-    <ion-card [attr.data-testid]="'card_'+box.id" *ngFor="let box of dataService.boxes" routerLink="/api/boxes/{box.id}">
+      <ion-list>
+    <ion-card [attr.data-testid]="'card_'+box.id" *ngFor="let box of dataService.boxes">
+      <ion-card-header>
+        <ion-card-title>Box number {{box.id}}</ion-card-title>
+      </ion-card-header>
       <ion-list>
         <ion-item>
-          <ion-label>{{box.size}}</ion-label>
+          <ion-label>Size: {{box.size}}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Mega Man X</ion-label>
+          <ion-label>Material: {{box.material}}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>The Legend of Zelda</ion-label>
+          <ion-label>Color: {{box.color}}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Pac-Man</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>Super Mario World</ion-label>
+          <ion-label>Quantity: {{box.quantity}}</ion-label>
         </ion-item>
       </ion-list>
     </ion-card>
+      </ion-list>
+    </ion-content>
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
       <ion-fab-button data-testid="createBox" (click)="openModal()">
         <ion-icon name="add"></ion-icon>
