@@ -4,8 +4,9 @@ import {CreateBoxComponent} from "../createBox/create-box.component";
 import {environment} from "../../environments/environment";
 import {Box} from "../../models";
 import {firstValueFrom} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {DataService} from "../data.service";
+import {State} from "../../state";
 
 @Component({
   selector: 'app-home',
@@ -42,7 +43,9 @@ import {DataService} from "../data.service";
           <ion-label>Quantity: {{box.quantity}}</ion-label>
         </ion-item>
       </ion-list>
-      <ion-button>More info</ion-button> <ion-button>Edit</ion-button> <ion-button>Delete</ion-button>
+      <ion-button>More info</ion-button>
+      <ion-button>Edit</ion-button>
+      <ion-button (click)="deleteBox(box.id)")>Delete</ion-button>
     </ion-card>
       </ion-list>
     </ion-content>
@@ -59,7 +62,8 @@ export class BoxesPage{
   constructor(public modalController: ModalController,
               public toastController: ToastController,
               public dataService: DataService,
-              public http: HttpClient) {
+              public http: HttpClient,
+              public state: State) {
     this.getFeedData();
   }
 
@@ -73,5 +77,29 @@ export class BoxesPage{
       component: CreateBoxComponent
     });
     modal.present();
+  }
+
+
+  async deleteBox(boxId: number | undefined) {
+    try {
+      await firstValueFrom(this.http.delete(environment.baseUrl + '/api/boxes/' + boxId))
+      this.state.boxes = this.state.boxes.filter(a => a.id != boxId)
+      const toast = await this.toastController.create({
+        message: 'the box was successfully deleted',
+        duration: 1200,
+        color: "success"
+      })
+      toast.present();
+    } catch (e) {
+      if (e instanceof HttpErrorResponse) {
+        const toast = await this.toastController.create({
+          message: e.error.messageToClient,
+          color: "danger"
+        });
+        toast.present();
+      }
+    }
+
+
   }
 }
