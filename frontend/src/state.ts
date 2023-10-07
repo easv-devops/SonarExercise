@@ -5,5 +5,5 @@ import {Box} from "./models";
   providedIn: 'root'
 })
 export class State {
-  books: Box[] = [];
+  boxes: Box[] = [];
 }

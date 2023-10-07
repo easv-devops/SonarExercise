@@ -71,7 +71,7 @@ export class CreateBoxComponent {
       const observable =     this.http.post<ResponseDto<Box>>(environment.baseUrl + '/api/boxes', this.createNewBoxForm.getRawValue())
 
       const response = await firstValueFrom(observable);
-      this.state.books.push(response.responseData!);
+      this.state.boxes.push(response.responseData!);
 
       const toast = await this.toastController.create({
         message: '????????',
