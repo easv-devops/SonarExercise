@@ -45,7 +45,7 @@ import {State} from "../../state";
       </ion-list>
       <ion-button>More info</ion-button>
       <ion-button>Edit</ion-button>
-      <ion-button (click)="deleteBox(box.id)")>Delete</ion-button>
+      <ion-button (click)="deleteBox(box.id)">Delete</ion-button>
     </ion-card>
       </ion-list>
     </ion-content>
@@ -71,7 +71,6 @@ export class BoxesPage{
     const call = this.http.get<Box[]>(environment.baseUrl + '/api/stock');
     this.dataService.boxes = await firstValueFrom<Box[]>(call);
   }
-
   async openModal() {
     const modal = await this.modalController.create({
       component: CreateBoxComponent
@@ -83,7 +82,8 @@ export class BoxesPage{
   async deleteBox(boxId: number | undefined) {
     try {
       await firstValueFrom(this.http.delete(environment.baseUrl + '/api/boxes/' + boxId))
-      this.state.boxes = this.state.boxes.filter(a => a.id != boxId)
+      this.state.boxes=this.state.boxes.filter(a => a.id!=boxId)
+
       const toast = await this.toastController.create({
         message: 'the box was successfully deleted',
         duration: 1200,
