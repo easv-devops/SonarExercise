@@ -2,10 +2,10 @@ import {Component} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import {Box, ResponseDto} from "../../models";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {State} from "../../state";
 import {firstValueFrom} from "rxjs";
 import {environment} from "../../environments/environment";
 import {ModalController, ToastController} from "@ionic/angular";
+import {DataService} from "../data.service";
 
 @Component({
   template: `
@@ -62,7 +62,7 @@ export class CreateBoxComponent {
     quantity: ['', Validators.required]
   })
 
-  constructor(public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public state: State, public toastController: ToastController) {
+  constructor(public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public dataService: DataService, public toastController: ToastController) {
   }
 
   async submit() {
@@ -71,7 +71,7 @@ export class CreateBoxComponent {
       const observable =     this.http.post<ResponseDto<Box>>(environment.baseUrl + '/api/boxes', this.createNewBoxForm.getRawValue())
 
       const response = await firstValueFrom(observable);
-      this.state.boxes.push(response.responseData!);
+      this.dataService.boxes.push(response.responseData!);
 
       const toast = await this.toastController.create({
         message: '????????',
