@@ -67,7 +67,7 @@ public class BoxController : ControllerBase
     {
         
         return new ResponseDto(){
-        MessageToClient = "Successfully created a box",
+        MessageToClient = "Successfully deleted a box",
         ResponseData = _boxService.DeleteBox(boxId)
     };
     }
