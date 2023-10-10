@@ -4,6 +4,8 @@ import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {firstValueFrom} from "rxjs";
+import {ModalController, ToastController} from "@ionic/angular";
+import {EditBoxComponent} from "../editBox/edit-box.component";
 
 @Component({
   selector: 'app-box-info',
@@ -14,7 +16,8 @@ export class BoxInfoComponent implements OnInit {
 
   box: Box | undefined;
 
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) {
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, public modalController: ModalController,
+              public toastController: ToastController) {
   }
 
   ngOnInit() {
@@ -31,5 +34,12 @@ export class BoxInfoComponent implements OnInit {
 
       }
     });
+  }
+
+  async openEditModal(boxId: number | undefined) {
+    const modal = await this.modalController.create({
+      component: EditBoxComponent,
+    });
+    modal.present();
   }
 }

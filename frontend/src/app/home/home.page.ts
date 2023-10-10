@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "../createBox/create-box.component";
+import {EditBoxComponent} from "../editBox/edit-box.component";
 import {environment} from "../../environments/environment";
 import {Box, ResponseDto} from "../../models";
 import {firstValueFrom} from "rxjs";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {DataService} from "../data.service";
-
 import {ActivatedRoute, Router} from "@angular/router";
 
 
@@ -54,7 +54,7 @@ import {ActivatedRoute, Router} from "@angular/router";
         </ion-item>
       </ion-list>
 
-      <ion-button (click)="openBoxInfo(box.id)">More info</ion-button> <ion-button >Edit</ion-button> <ion-button (click)="deleteBox(box.id)" color="danger">Delete</ion-button>
+      <ion-button (click)="openBoxInfo(box.id)">More info</ion-button><ion-button (click)="deleteBox(box.id)" color="danger">Delete</ion-button>
 
     </ion-card>
 
@@ -141,7 +141,5 @@ export class BoxesPage {
 
       toast.present();
     }
-
-
   }
 }
