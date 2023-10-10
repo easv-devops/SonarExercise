@@ -54,7 +54,7 @@ import {ActivatedRoute, Router} from "@angular/router";
         </ion-item>
       </ion-list>
 
-      <ion-button>More info</ion-button> <ion-button>Edit</ion-button> <ion-button (click)="deleteBox(box.id)" color="danger">Delete</ion-button>
+      <ion-button (click)="openBoxInfo(box.id)">More info</ion-button> <ion-button >Edit</ion-button> <ion-button (click)="deleteBox(box.id)" color="danger">Delete</ion-button>
 
     </ion-card>
 
