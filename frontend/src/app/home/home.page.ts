@@ -42,7 +42,7 @@ import {DataService} from "../data.service";
           <ion-label>Quantity: {{box.quantity}}</ion-label>
         </ion-item>
       </ion-list>
-      <ion-button>More info</ion-button> <ion-button>Edit</ion-button> <ion-button>Delete</ion-button>
+      <ion-button>More info</ion-button> <ion-button>Edit</ion-button> <ion-button color="danger">Delete</ion-button>
     </ion-card>
       </ion-list>
     </ion-content>

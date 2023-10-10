@@ -20,11 +20,11 @@ import {ModalController, ToastController} from "@ionic/angular";
         </ion-select>
       </ion-item>
     <ion-item>
-      <ion-input [formControl]="createNewBoxForm.controls.weight" data-testid="weightInput"  label="Weight of the box">
+      <ion-input [formControl]="createNewBoxForm.controls.weight" type="number" data-testid="weightInput"  label="Weight of the box">
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="createNewBoxForm.controls.price" data-testid="priceInput"  label="Price of the box">
+      <ion-input [formControl]="createNewBoxForm.controls.price" type="number" data-testid="priceInput"  label="Price of the box">
       </ion-input>
     </ion-item>
       <ion-item>
@@ -44,7 +44,7 @@ import {ModalController, ToastController} from "@ionic/angular";
         </ion-select>
       </ion-item>
     <ion-item>
-      <ion-input [formControl]="createNewBoxForm.controls.quantity" data-testid="quantityInput"  label="Quantity">
+      <ion-input [formControl]="createNewBoxForm.controls.quantity" type="number" data-testid="quantityInput"  label="Quantity">
 
       </ion-input>
     </ion-item>
