@@ -28,13 +28,15 @@ public class BoxService
         return _boxRepository.UpdateBox(id, size, weight, price, material, color, quantity);
     }
 
-    public void DeleteBox(int id)
+    public bool DeleteBox(int id)
     {
         var result = _boxRepository.DeleteBox(id);
         if (!result)
         {
             throw new AggregateException("Could not delete Box");
         }
+
+        return result;
     }
 
     public Box GetBoxById(int id)

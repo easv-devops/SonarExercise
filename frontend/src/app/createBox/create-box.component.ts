@@ -6,7 +6,7 @@ import {firstValueFrom} from "rxjs";
 import {DataService} from "../data.service";
 import {environment} from "../../environments/environment";
 import {ModalController, ToastController} from "@ionic/angular";
-import {DataService} from "../data.service";
+
 
 @Component({
   template: `
@@ -78,7 +78,9 @@ export class CreateBoxComponent {
       const observable =     this.http.post<ResponseDto<Box>>(environment.baseUrl + '/api/boxes', this.createNewBoxForm.getRawValue())
 
       const response = await firstValueFrom(observable);
+
       this.dataService.boxes.push(response.responseData!);
+
 
       const toast = await this.toastController.create({
         message: 'Box was created!',

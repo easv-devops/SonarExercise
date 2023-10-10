@@ -2,11 +2,13 @@ import {Component} from '@angular/core';
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "../createBox/create-box.component";
 import {environment} from "../../environments/environment";
-import {Box} from "../../models";
+import {Box, ResponseDto} from "../../models";
 import {firstValueFrom} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {DataService} from "../data.service";
+
 import {ActivatedRoute, Router} from "@angular/router";
+
 
 
 
@@ -51,7 +53,9 @@ import {ActivatedRoute, Router} from "@angular/router";
           <ion-label>Quantity: {{box.quantity}}</ion-label>
         </ion-item>
       </ion-list>
-      <ion-button>More info</ion-button> <ion-button>Edit</ion-button> <ion-button color="danger">Delete</ion-button>
+
+      <ion-button>More info</ion-button> <ion-button>Edit</ion-button> <ion-button (click)="deleteBox(box.id)" color="danger">Delete</ion-button>
+
     </ion-card>
 
       </ion-list>
@@ -75,7 +79,8 @@ export class BoxesPage {
               private router: Router,
               private activatedRoute: ActivatedRoute,
               public dataService: DataService,
-              public http: HttpClient) {
+              public http: HttpClient
+              ) {
     this.getFeedData();
 
   }
@@ -84,13 +89,13 @@ export class BoxesPage {
     const call = this.http.get<Box[]>(environment.baseUrl + '/api/stock');
     this.dataService.boxes = await firstValueFrom<Box[]>(call);
   }
-
   async openModal() {
     const modal = await this.modalController.create({
       component: CreateBoxComponent
     });
     modal.present();
   }
+
 
   async openBoxInfo(boxId: number | undefined) {
     if (boxId !== undefined) {
@@ -103,5 +108,40 @@ export class BoxesPage {
     const query = $event.target.value;
     const call = this.http.get<Box[]>(environment.baseUrl + `/api/boxes?SearchTerm=${query}`);
     this.dataService.boxes = await firstValueFrom<Box[]>(call);
+  }
+
+  async deleteBox(boxId: number | undefined) {
+    try {
+      await firstValueFrom(this.http.delete<ResponseDto<boolean>>(environment.baseUrl + '/api/boxes/' + boxId))
+      this.dataService.boxes=this.dataService.boxes.filter(a => a.id!=boxId)
+
+      const toast = await this.toastController.create({
+        message: 'the box was successfully deleted',
+        duration: 1200,
+        color: 'success'
+      })
+      toast.present();
+    }  catch (error:any) {
+
+      let errorMessage = 'Error';
+
+      if (error instanceof HttpErrorResponse) {
+
+        errorMessage = error.error?.message || 'Server error';
+      } else if (error.error instanceof ErrorEvent) {
+
+        errorMessage = error.error.message;
+      }
+
+      const toast = await this.toastController.create({
+        color: 'danger',
+        duration: 2000,
+        message: errorMessage
+      });
+
+      toast.present();
+    }
+
+
   }
 }

@@ -63,10 +63,13 @@ public class BoxController : ControllerBase
 
     [HttpDelete]
     [Route("/api/boxes/{boxId}")]
-    public object Delete([FromRoute] int boxId)
+    public ResponseDto Delete([FromRoute] int boxId)
     {
-        _boxService.DeleteBox(boxId);
-        return "Box Deleted";
+        
+        return new ResponseDto(){
+        MessageToClient = "Successfully deleted a box",
+        ResponseData = _boxService.DeleteBox(boxId)
+    };
     }
     
   
