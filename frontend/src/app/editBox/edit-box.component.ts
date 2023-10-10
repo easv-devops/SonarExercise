@@ -57,7 +57,7 @@ import {ActivatedRoute} from "@angular/router";
       </ion-item>
 
       <ion-item>
-        <ion-button data-testid="submit" [disabled]="editBoxForm.invalid" (click)="submit()">Create New Box
+        <ion-button data-testid="submit" [disabled]="editBoxForm.invalid" (click)="submit()">Update Box
         </ion-button>
       </ion-item>
     </ion-list>
@@ -96,7 +96,7 @@ export class EditBoxComponent {
 
 
       const toast = await this.toastController.create({
-        message: 'Box was created!',
+        message: 'Box was updated!',
         duration: 1233,
         color: "success"
       })
