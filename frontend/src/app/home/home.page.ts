@@ -31,28 +31,29 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 
       <ion-list>
-        <ion-card [attr.data-testid]="'card_'+box.id" *ngFor="let box of dataService.boxes">
-          <ion-card-header>
-            <ion-card-title>Box number {{box.id}}</ion-card-title>
-          </ion-card-header>
-          <ion-list>
-            <ion-item>
-              <ion-label>Size: {{box.size}}</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-label>Material: {{box.material}}</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-label>Color: {{box.color}}</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-label>Quantity: {{box.quantity}}</ion-label>
-            </ion-item>
-          </ion-list>
-          <ion-button (click)="openBoxInfo(box.id)">More info</ion-button>
-          <ion-button>Edit</ion-button>
-          <ion-button>Delete</ion-button>
-        </ion-card>
+
+
+    <ion-card [attr.data-testid]="'card_'+box.id" *ngFor="let box of dataService.boxes">
+      <ion-card-header>
+        <ion-card-title>Box number {{box.id}}</ion-card-title>
+      </ion-card-header>
+      <ion-list>
+        <ion-item>
+          <ion-label>Size: {{box.size}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Material: {{box.material}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Color: {{box.color}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Quantity: {{box.quantity}}</ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-button>More info</ion-button> <ion-button>Edit</ion-button> <ion-button color="danger">Delete</ion-button>
+    </ion-card>
+
       </ion-list>
     </ion-content>
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
