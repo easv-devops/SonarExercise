@@ -4,6 +4,9 @@ import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {firstValueFrom} from "rxjs";
+import {ModalController, ToastController} from "@ionic/angular";
+import {EditBoxComponent} from "../editBox/edit-box.component";
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-box-info',
@@ -14,7 +17,9 @@ export class BoxInfoComponent implements OnInit {
 
   box: Box | undefined;
 
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) {
+  constructor(public httpClient: HttpClient, private activatedRoute: ActivatedRoute, private http: HttpClient, public modalController: ModalController,
+              public toastController: ToastController, public dataService : DataService) {
+    this.setId();
   }
 
   ngOnInit() {
@@ -31,5 +36,22 @@ export class BoxInfoComponent implements OnInit {
 
       }
     });
+  }
+async setId() {
+    try{
+      const id = (await firstValueFrom(this.activatedRoute.paramMap)).get('boxId');
+      this.dataService.currentBox = (await firstValueFrom(this.httpClient.get<any>(environment.baseUrl + '/api/boxes/' + id)));
+    } catch (e) {
+      console.log(e);
+      console.log(this.dataService.currentBox.id);
+    }
+
+}
+
+  async openEditModal() {
+    const modal = await this.modalController.create({
+      component: EditBoxComponent,
+    });
+    modal.present();
   }
 }

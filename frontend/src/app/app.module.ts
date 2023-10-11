@@ -11,9 +11,10 @@ import {HttpClientModule} from "@angular/common/http";
 import {CreateBoxComponent} from "./createBox/create-box.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {BoxInfoComponent} from "./box-info/box-info.component";
+import {EditBoxComponent} from "./editBox/edit-box.component";
 
 @NgModule({
-  declarations: [AppComponent, BoxesPage, CreateBoxComponent, BoxInfoComponent],
+  declarations: [AppComponent, BoxesPage, CreateBoxComponent, BoxInfoComponent, EditBoxComponent],
   imports: [BrowserModule, IonicModule.forRoot({mode: 'ios'}), AppRoutingModule, HttpClientModule, ReactiveFormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
