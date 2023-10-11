@@ -76,7 +76,7 @@ public class DeleteTests : PageTest
 
         var box = new Box()
         {
-            Id = 2,
+            Id = 1,
             Size = "small",
             Weight = 10,
             Price = 2,
@@ -91,8 +91,7 @@ public class DeleteTests : PageTest
         using (var conn = Helper.DataSource.OpenConnection())
         {
             conn.Execute(sql, box);
-            Console.WriteLine(
-                $"Box: Id={box.Id},Size={box.Size}, Weight={box.Weight}, Price={box.Price}, Material={box.Material}, Color={box.Color}, Quantity={box.Quantity}");
+            
         }
 
 Page.SetDefaultTimeout(3000);
