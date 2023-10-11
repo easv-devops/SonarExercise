@@ -10,8 +10,7 @@ using NUnit.Framework;
 
 namespace test;
 
-
-public class UpdateTests:PageTest
+public class UpdateTests : PageTest
 {
     private HttpClient _httpClient;
 
@@ -25,7 +24,7 @@ public class UpdateTests:PageTest
     public async Task SuccessfullyUpdateBox()
     {
         Helper.TriggerRebuild();
-        
+
         var box = new Box()
         {
             Id = 1,
@@ -47,7 +46,7 @@ public class UpdateTests:PageTest
         }
 
         var url = "http://localhost:5000/api/boxes/" + 1;
-        
+
 
         HttpResponseMessage response;
         try
@@ -99,7 +98,7 @@ public class UpdateTests:PageTest
             Color = color,
             Quantity = quantity
         };
-        
+
         var url = "http://localhost:5000/api/boxes/" + 1;
         HttpResponseMessage response;
         try
@@ -111,7 +110,7 @@ public class UpdateTests:PageTest
         {
             throw new Exception(Helper.NoResponseMessage, e);
         }
-        
+
         using (new AssertionScope())
         {
             response.IsSuccessStatusCode.Should().BeFalse();
@@ -143,39 +142,38 @@ public class UpdateTests:PageTest
         {
             conn.Execute(sql, box);
         }
-        
+
         float newWeight = 3.0f;
-        float newPrice = 12.99f;
         string newSize = "small";
-        string newMaterial = "plastic";
-        string newColor = "blue";
-        int newQuantity = 60;
+
 
         Page.SetDefaultTimeout(6000);
         await Page.GotoAsync(Helper.ClientAppBaseUrl + "/box-info/" + box.Id);
         await Page.GetByRole(AriaRole.Button, new() { Name = "Edit" }).ClickAsync();
 
-        
-        //size
-       
-        await Page.GetByText("Sizemedium").ClickAsync();
-        await Page.GetByRole(AriaRole.Radio, new() { Name = "small" }).ClickAsync(); 
-        await Page.GetByRole(AriaRole.Button, new() { Name = "OK" }).ClickAsync(); 
 
-        
-        
-        
+        //size
+        await Page.GetByText("Sizemedium").ClickAsync();
+        await Page.GetByRole(AriaRole.Radio, new() { Name = "small" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "OK" }).ClickAsync();
+       
+        //weight
+        await Page.GetByLabel("Weight of the box").ClickAsync();
+        await Page.GetByLabel("weight of the box").FillAsync(newWeight.ToString());
+
         await Page.GetByRole(AriaRole.Button, new() { Name = "Update Box" }).ClickAsync();
 
         await Page.GotoAsync(Helper.ClientAppBaseUrl + "/box-info/" + box.Id);
-        
-        
+
+
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
             conn.QueryFirst<Box>("SELECT * FROM box_factory.boxes").Should()
                 .BeEquivalentTo(new Box()
-                    { Id = 1, Size = newSize, Weight = 2.5f, Price = 10.99f, Material = "wood", Color = "red",Quantity = 50});
+                {
+                    Id = 1, Size = newSize, Weight = newWeight, Price = 10.99f, Material = "wood", Color = "red",
+                    Quantity = 50
+                });
         }
     }
-   
 }
