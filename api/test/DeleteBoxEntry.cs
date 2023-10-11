@@ -1,10 +1,9 @@
 using Dapper;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using NUnit.Framework;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
-using test;
+using NUnit.Framework;
 
 namespace test;
 
@@ -72,7 +71,7 @@ public class DeleteTests : PageTest
     public async Task DeleteBoxFromUI()
     {
         Helper.TriggerRebuild();
-        int boxIdToDelete;
+        
 
 
         var box = new Box()
@@ -96,11 +95,10 @@ public class DeleteTests : PageTest
                 $"Box: Id={box.Id},Size={box.Size}, Weight={box.Weight}, Price={box.Price}, Material={box.Material}, Color={box.Color}, Quantity={box.Quantity}");
         }
 
-
+Page.SetDefaultTimeout(3000);
         await Page.GotoAsync(Helper.ClientAppBaseUrl);
         var card = Page.GetByTestId("card_" + box.Id);
-        var deleteButton = card.GetByTestId("ion-button[data-testid='delete_button']");
-         deleteButton.ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Delete" }).ClickAsync();
         await Page.GotoAsync(Helper.ClientAppBaseUrl);
         await Expect(card).Not.ToBeVisibleAsync();
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
