@@ -100,8 +100,7 @@ public class GetBoxInfo : PageTest
         using (var conn = Helper.DataSource.OpenConnection())
         {
             conn.Execute(sql, box);
-            Console.WriteLine(
-                $"Box: Id={box.Id},Size={box.Size}, Weight={box.Weight}, Price={box.Price}, Material={box.Material}, Color={box.Color}, Quantity={box.Quantity}");
+            
         }
         
         Page.SetDefaultTimeout(3000);
@@ -109,5 +108,9 @@ public class GetBoxInfo : PageTest
         await Page.GetByTestId("card_" + box.Id).ClickAsync();
         await Page.GetByRole(AriaRole.Button, new() { Name = "More info" }).ClickAsync();
         await Expect(Page).ToHaveURLAsync(Helper.ClientAppBaseUrl + "/box-info/"+box.Id);
+        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = box.Size +" "+ box.Material + " Box"}))
+            .ToBeVisibleAsync();
+        
+        
     }
 }
