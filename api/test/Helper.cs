@@ -10,6 +10,7 @@ public class Helper
     public static readonly Uri Uri;
     private static readonly string ProperlyFormattedConnectionString;
     public static readonly NpgsqlDataSource DataSource;
+    public static readonly string ClientAppBaseUrl = "http://localhost:4200";
 
     static Helper()
     {
