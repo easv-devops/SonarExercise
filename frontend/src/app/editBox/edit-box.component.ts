@@ -22,7 +22,7 @@ import {ActivatedRoute} from "@angular/router";
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-input [formControl]="editBoxForm.controls.weight" type="number" data-testid="weightInput"
+        <ion-input  [formControl]="editBoxForm.controls.weight" type="number" data-testid="weightInput"
                    label="Weight of the box">
         </ion-input>
       </ion-item>
