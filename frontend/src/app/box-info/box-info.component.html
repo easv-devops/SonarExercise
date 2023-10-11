@@ -1,0 +1,40 @@
+
+
+<ion-header>
+    <ion-toolbar>
+      <ion-title>Box Details</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-card *ngIf="box">
+      <ion-card-header>
+        <ion-card-title>{{ box.size ? box.size + ' ' : '' }}
+          {{ box.material ? box.material + ' ' : '' }}
+          Box</ion-card-title>
+      </ion-card-header>
+      <ion-button (click)="openEditModal()">Edit</ion-button>
+      <ion-list>
+        <ion-item>
+          <ion-label>Size: {{ box.size }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Weight: {{ box.weight }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Price: {{ box.price }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Material: {{ box.material }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Color: {{ box.color }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Quantity: {{ box.quantity }}</ion-label>
+        </ion-item>
+
+      </ion-list>
+    </ion-card>
+  </ion-content>
+

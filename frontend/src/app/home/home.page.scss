@@ -1,10 +1,7 @@
 #container {
   text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  padding-top: 10%;
+  padding-bottom: 10%;
 }
 
 #container strong {
@@ -15,17 +12,10 @@
 #container p {
   font-size: 16px;
   line-height: 22px;
-
   color: #8c8c8c;
-
   margin: 0;
 }
 
-#container a {
-  text-decoration: none;
-}
-
-.button {
-  text-align: center;
-  position: absolute;
+ion-button {
+  padding: 5px 0 5px 10px;
 }

@@ -2,13 +2,15 @@
 using Dapper;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Microsoft.Playwright;
+using Microsoft.Playwright.NUnit;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
 
 namespace test;
 
-public class UpdateBox
+public class UpdateTests : PageTest
 {
     private HttpClient _httpClient;
 
@@ -22,7 +24,7 @@ public class UpdateBox
     public async Task SuccessfullyUpdateBox()
     {
         Helper.TriggerRebuild();
-        
+
         var box = new Box()
         {
             Id = 1,
@@ -44,7 +46,7 @@ public class UpdateBox
         }
 
         var url = "http://localhost:5000/api/boxes/" + 1;
-        
+
 
         HttpResponseMessage response;
         try
@@ -96,7 +98,7 @@ public class UpdateBox
             Color = color,
             Quantity = quantity
         };
-        
+
         var url = "http://localhost:5000/api/boxes/" + 1;
         HttpResponseMessage response;
         try
@@ -108,10 +110,70 @@ public class UpdateBox
         {
             throw new Exception(Helper.NoResponseMessage, e);
         }
-        
+
         using (new AssertionScope())
         {
             response.IsSuccessStatusCode.Should().BeFalse();
+        }
+    }
+
+    [Test]
+    public async Task BoxCanSuccessfullyBeUpdatedUi()
+    {
+        Helper.TriggerRebuild();
+
+
+        var box = new Box()
+        {
+            Id = 1,
+            Size = "medium",
+            Weight = 2.5f,
+            Price = 10.99f,
+            Material = "wood",
+            Color = "red",
+            Quantity = 50
+        };
+        var sql = $@"
+        INSERT INTO box_factory.boxes (size, weight, price, material, color, quantity) 
+        VALUES (@size, @weight, @price, @material, @color, @quantity);
+    ";
+
+        using (var conn = Helper.DataSource.OpenConnection())
+        {
+            conn.Execute(sql, box);
+        }
+
+        float newWeight = 3.0f;
+        string newSize = "small";
+
+
+        Page.SetDefaultTimeout(6000);
+        await Page.GotoAsync(Helper.ClientAppBaseUrl + "/box-info/" + box.Id);
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Edit" }).ClickAsync();
+
+
+        //size
+        await Page.GetByText("Sizemedium").ClickAsync();
+        await Page.GetByRole(AriaRole.Radio, new() { Name = "small" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "OK" }).ClickAsync();
+       
+        //weight
+        await Page.GetByLabel("Weight of the box").ClickAsync();
+        await Page.GetByLabel("weight of the box").FillAsync(newWeight.ToString());
+
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Update Box" }).ClickAsync();
+
+        await Page.GotoAsync(Helper.ClientAppBaseUrl + "/box-info/" + box.Id);
+
+
+        await using (var conn = await Helper.DataSource.OpenConnectionAsync())
+        {
+            conn.QueryFirst<Box>("SELECT * FROM box_factory.boxes").Should()
+                .BeEquivalentTo(new Box()
+                {
+                    Id = 1, Size = newSize, Weight = newWeight, Price = 10.99f, Material = "wood", Color = "red",
+                    Quantity = 50
+                });
         }
     }
 }

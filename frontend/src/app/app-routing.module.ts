@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {BoxesPage} from "./home/home.page";
+import {BoxInfoComponent} from "./box-info/box-info.component";
+
 
 const routes: Routes = [
   {
@@ -11,6 +13,10 @@ const routes: Routes = [
   {
     path: 'boxes',
     component: BoxesPage
+  },
+  {
+    path: 'box-info/:boxId',
+    component: BoxInfoComponent
   }
 ];
 

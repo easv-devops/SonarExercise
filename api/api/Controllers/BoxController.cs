@@ -56,17 +56,20 @@ public class BoxController : ControllerBase
         [FromBody] UpdateBoxRequestDto dto)
     {
         HttpContext.Response.StatusCode = 201;
-
+        dto.Id = boxId;
         return _boxService.UpdateBox(dto.Id, dto.Size, dto.Weight, dto.Price, dto.Material, dto.Color, dto.Quantity);
 
     }
 
     [HttpDelete]
     [Route("/api/boxes/{boxId}")]
-    public object Delete([FromRoute] int boxId)
+    public ResponseDto Delete([FromRoute] int boxId)
     {
-        _boxService.DeleteBox(boxId);
-        return "Box Deleted";
+        
+        return new ResponseDto(){
+        MessageToClient = "Successfully deleted a box",
+        ResponseData = _boxService.DeleteBox(boxId)
+    };
     }
     
   
