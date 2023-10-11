@@ -39,10 +39,11 @@ export class BoxInfoComponent implements OnInit {
   }
 async setId() {
     try{
-      const id = (await firstValueFrom(this.activatedRoute.paramMap)).get('id');
+      const id = (await firstValueFrom(this.activatedRoute.paramMap)).get('boxId');
       this.dataService.currentBox = (await firstValueFrom(this.httpClient.get<any>(environment.baseUrl + '/api/boxes/' + id)));
     } catch (e) {
       console.log(e);
+      console.log(this.dataService.currentBox.id);
     }
 
 }

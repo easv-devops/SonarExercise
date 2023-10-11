@@ -14,7 +14,7 @@ import {ActivatedRoute} from "@angular/router";
     <ion-list>
       <ion-item>
         <ion-select [formControl]="editBoxForm.controls.size" data-testid="sizeInput" label="Size"
-                    placeholder="Pick size">
+                    placeholder="{{dataService.currentBox.size}}">
           <ion-select-option value="small">small</ion-select-option>
           <ion-select-option value="medium">medium</ion-select-option>
           <ion-select-option value="big">big</ion-select-option>
@@ -27,7 +27,7 @@ import {ActivatedRoute} from "@angular/router";
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input [formControl]="editBoxForm.controls.price" type="number" data-testid="priceInput"
+        <ion-input [formControl]="editBoxForm.controls.price" placeholder="{{dataService.currentBox.price}}" value="{{dataService.currentBox.price}}" type="number" data-testid="priceInput"
                    label="Price of the box">
         </ion-input>
       </ion-item>
@@ -70,12 +70,12 @@ export class EditBoxComponent {
   box: Box | undefined;
 
   editBoxForm = this.fb.group({
-    size: ['', Validators.required, Validators.pattern('(?:small|medium|big|large)')],
-    weight: ['', Validators.required],
-    price: ['', Validators.required],
-    material: ['', Validators.required, Validators.pattern('(?:paper|metal|plastic|wood)')],
-    color: ['', Validators.required, Validators.pattern('(?:clear|red|blue|green)')],
-    quantity: ['', Validators.required]
+    size: [this.dataService.currentBox.size, [Validators.required, Validators.pattern('(?:small|medium|big|large)')]],
+    weight: [this.dataService.currentBox.weight, [Validators.required]],
+    price: [this.dataService.currentBox.price, [Validators.required]],
+    material: [this.dataService.currentBox.material, [Validators.required, Validators.pattern('(?:paper|metal|plastic|wood)')]],
+    color: [this.dataService.currentBox.color, [Validators.required, Validators.pattern('(?:clear|red|blue|green)')]],
+    quantity: [this.dataService.currentBox.quantity, [Validators.required]]
   })
 
   constructor(private activatedRoute: ActivatedRoute, public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public dataService: DataService, public toastController: ToastController) {
