@@ -100,7 +100,6 @@ export class BoxesPage {
   async openBoxInfo(boxId: number | undefined) {
     if (boxId !== undefined) {
       this.router.navigate(['box-info', boxId]);
-
     }
   }
 

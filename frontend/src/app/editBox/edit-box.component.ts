@@ -82,36 +82,41 @@ export class EditBoxComponent {
   }
 
   async submit() {
-
     try {
-      this.activatedRoute.params.subscribe(async (params) => {
-        const boxId = params['boxId'];
-        if (boxId) {
-          const call = this.http.put<Box>(environment.baseUrl + '/api/boxes/' + boxId, this.editBoxForm.value);
-          this.box = await firstValueFrom<Box>(call);
-        } else {
-
-        }
-      });
-
-
+      const call = this.http.put<Box>(environment.baseUrl + '/api/boxes/' + this.dataService.currentBox.id, this.editBoxForm.value);
+      const result = await firstValueFrom<Box>(call);
+      let index = this.dataService.boxes.findIndex(b => b.id == this.dataService.currentBox.id)
+      this.dataService.boxes[index] = result;
+      this.dataService.currentBox = result;
+      this.modalController.dismiss();
       const toast = await this.toastController.create({
-        message: 'Box was updated!',
-        duration: 1233,
-        color: "success"
+        message: 'successfully updated',
+        duration: 1000,
+        color: 'success'
       })
       toast.present();
-      this.modalController.dismiss();
-    } catch (e) {
-      if (e instanceof HttpErrorResponse) {
-        const toast = await this.toastController.create({
-          message: e.error.messageToClient,
-          color: "danger"
-        });
-        toast.present();
+
+    } catch (error: any) {
+      console.log(error);
+      let errorMessage = 'Error';
+
+      if (error instanceof HttpErrorResponse) {
+        // The backend returned an unsuccessful response code.
+        errorMessage = error.error?.message || 'Server error';
+      } else if (error.error instanceof ErrorEvent) {
+        // A client-side or network error occurred.
+        errorMessage = error.error.message;
       }
+
+      const toast = await this.toastController.create({
+        color: 'danger',
+        duration: 2000,
+        message: errorMessage
+      });
+
+      toast.present();
     }
 
-
   }
+
 }
