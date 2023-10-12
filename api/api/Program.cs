@@ -26,6 +26,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+var path = "../../frontend/www";
+builder.Services.AddSpaStaticFiles(conf => conf.RootPath = path);
 
 var app = builder.Build();
 
@@ -43,6 +45,9 @@ app.UseCors(options =>
         .AllowAnyHeader()
         .AllowCredentials();
 });
+
+app.UseSpaStaticFiles();
+app.UseSpa(conf => { conf.Options.SourcePath = path; });
 
 app.MapControllers();
 
