@@ -7,5 +7,5 @@ steps:
     image: boulundeasv/dotnet-sdk-with-java
     commands:
       - dotnet sonarscanner begin /k:"easv-devops_SonarExercise_AY2dYyYYEVvRW2O60D9E" /d:sonar.host.url="http://sonar.setgo.dk:9000"  /d:sonar.token="sqp_34e109103898fe747655f49e6243180bd4e33931"
-      - cd api dotnet build
+      - cd api && dotnet build
       - dotnet sonarscanner end /d:sonar.token="sqp_34e109103898fe747655f49e6243180bd4e33931"
